@@ -22,8 +22,6 @@ function changeColor(e) {
   }
 }
 
-resizeGrid(size);
-
 let slider = document.getElementById("gridSize");
 let output = document.getElementById("slider-value");
 slider.value = size;
@@ -33,4 +31,9 @@ slider.oninput = (e) => {
   let output = document.getElementById("slider-value");
   output.innerHTML = `${e.target.value}x${e.target.value}`;
   resizeGrid(e.target.value);
+}
+
+window.onload = () => {
+  resizeGrid(size);
+  activateButton(DEFAULT_MODE)
 }
