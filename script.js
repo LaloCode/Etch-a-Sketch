@@ -22,18 +22,26 @@ function changeColor(e) {
   }
 }
 
+function sliderChange(size) {
+  let output = document.getElementById("slider-value");
+  output.innerHTML = `${size}x${size}`;
+  resizeGrid(size);
+}
+
 let slider = document.getElementById("gridSize");
 let output = document.getElementById("slider-value");
+let colorPicker = document.getElementById("colorPicker");
+let colorModeBtn = document.getElementById("colorMode");
+let rnbwModeBtn = document.getElementById("rnbwMode");
+let eraserModeBtn = document.getElementById("eraserMode");
+let clearBtn = document.getElementById("clearBtn");
 slider.value = size;
 output.innerHTML = `${size}x${size}`;
 
-slider.oninput = (e) => {
-  let output = document.getElementById("slider-value");
-  output.innerHTML = `${e.target.value}x${e.target.value}`;
-  resizeGrid(e.target.value);
-}
+slider.oninput = (e) => sliderChange(e.target.value);
+colorPicker.onchange = (e) => currentColor = e.target.value;
 
 window.onload = () => {
   resizeGrid(size);
-  activateButton(DEFAULT_MODE)
+  activateButton(colorMode)
 }
