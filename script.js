@@ -17,15 +17,34 @@ function resizeGrid(length) {
 }
 
 function changeColor(e) {
-  if (colorMode === 'color') {
+  if (colorMode === 'colorMode') {
     e.target.style.backgroundColor = currentColor;
+  }
+  if (colorMode === 'eraserMode') {
+    e.target.style.backgroundColor = 'white';
+  }
+  if (colorMode === 'rnbwMode') {
+    const randomR = Math.floor(Math.random() * 256)
+    const randomG = Math.floor(Math.random() * 256)
+    const randomB = Math.floor(Math.random() * 256)
+    e.target.style.backgroundColor = `rgb(${randomR}, ${randomG}, ${randomB})`;
   }
 }
 
-function sliderChange(size) {
+function sliderChange(newSize) {
   let output = document.getElementById("slider-value");
-  output.innerHTML = `${size}x${size}`;
-  resizeGrid(size);
+  output.innerHTML = `${newSize}x${newSize}`;
+  size = newSize;
+  resizeGrid(newSize);
+}
+
+function modeChange(clickedBtn) {
+  colorModeBtn.classList.remove("activeBtn");
+  rnbwModeBtn.classList.remove("activeBtn");
+  eraserModeBtn.classList.remove("activeBtn");
+
+  clickedBtn.classList.add("activeBtn");
+  colorMode = clickedBtn.id;
 }
 
 let slider = document.getElementById("gridSize");
@@ -35,13 +54,18 @@ let colorModeBtn = document.getElementById("colorMode");
 let rnbwModeBtn = document.getElementById("rnbwMode");
 let eraserModeBtn = document.getElementById("eraserMode");
 let clearBtn = document.getElementById("clearBtn");
+colorModeBtn.classList.add("activeBtn");
 slider.value = size;
 output.innerHTML = `${size}x${size}`;
 
 slider.oninput = (e) => sliderChange(e.target.value);
 colorPicker.onchange = (e) => currentColor = e.target.value;
+colorModeBtn.onclick = (e) => modeChange(e.target);
+rnbwModeBtn.onclick = (e) => modeChange(e.target);
+eraserModeBtn.onclick = (e) => modeChange(e.target);
+clearBtn.onclick = (e) => resizeGrid(size);
 
 window.onload = () => {
   resizeGrid(size);
-  activateButton(colorMode)
+  modeChange(colorModeBtn)
 }
